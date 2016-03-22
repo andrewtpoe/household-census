@@ -1,0 +1,20 @@
+%section{ data: {js: 'app_main'} }
+  .center-block.loading-failed
+    %h1
+      Household Census
+    %p
+      This application requires JavaScript to work correctly.
+      %br
+      Please enable it in your browser and refresh the page.
+
+  :javascript
+    var div = document.querySelector('[data-js=app_main]');
+    var background = document.createElement('DIV');
+    background.classList.add('loading-background');
+    var container = document.createElement('DIV');
+    container.classList.add('loading-container');
+    var image = document.createElement('DIV');
+    image.classList.add('loading-image');
+    container.appendChild(image);
+    background.appendChild(container);
+    div.appendChild(background);

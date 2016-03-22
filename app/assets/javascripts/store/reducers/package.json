@@ -1,0 +1,6 @@
+{
+  "name": "rootReducer",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./root_reducer.js"
+}
