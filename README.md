@@ -1,6 +1,23 @@
 # Household Census
 
-This project is a demonstration Rails app that includes a React based SPA. It's purpose is simple, allow users to fill out a multi-part form that describes there household, the people in the household, and the vehicles each person owns.
+This project is a demonstration Rails app that includes a single page application written in React using ES6. It's purpose is simple, allow users to fill out a multi-part form that describes their household, the people in the household, and the vehicles each person owns.
+
+## Tech Stack
+
+This project has the following dependencies:
+
+  * Ruby on Rails 4
+  * PostgreSQL 9.4
+  * Node/NPM 4.0+
+
+You must have these installed and configured to run this project in your local environment.
+
+Additional technological highlights used by this project include:
+
+  * Bootstrap
+  * React
+  * Redux
+  * ES6
 
 ## Running the Project
 
@@ -12,7 +29,7 @@ This project is a demonstration Rails app that includes a React based SPA. It's 
   $ npm install
   ```
 
-3. Run the following terminal command to create the database:
+3. Run the following terminal commands to create the database:
 
   ```bash
   $ bin/rake db:create
