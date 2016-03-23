@@ -2,6 +2,8 @@
 
 This project is a demonstration Rails app that includes a React based SPA. It's purpose is simple, allow users to fill out a multi-part form that describes there household, the people in the household, and the vehicles each person owns.
 
+This project is live on Heroku! The master branch can be found at [https://household-census.herokuapp.com](https://household-census.herokuapp.com).
+
 ## Running the Project
 
 1. Clone the project and download it to your computer.
