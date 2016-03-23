@@ -6,20 +6,20 @@ This project is a demonstration Rails app that includes a React based SPA. It's 
 
 1. Clone the project and download it to your computer.
 2. Run the following terminal commands to install the needed gems and packages:
-```bash
-$ bundle install
-$ npm install
-```
+  ```bash
+  $ bundle install
+  $ npm install
+  ```
 3. Run the following terminal command to create the database:
-```bash
-$ bin/rake db:create
-$ bin/rake db:migrate
-$ bin/rake db:test:prepare
-```
+  ```bash
+  $ bin/rake db:create
+  $ bin/rake db:migrate
+  $ bin/rake db:test:prepare
+  ```
 4. You should now be able to start the server with this command:
-```bash
-$ bin/rails s
-```
+  ```bash
+  $ bin/rails s
+  ```
 Navigate to [localhost:3000](localhost:3000) in your browser to view the project live!
 
 ## Testing the Project
