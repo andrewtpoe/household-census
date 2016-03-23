@@ -10,7 +10,6 @@ This project is a demonstration Rails app that includes a React based SPA. It's 
 $ bundle install
 $ npm install
 ```
-_* this project has both Rails and Node dependencies, and relies on PostgreSQL as it's database._
 3. Run the following terminal command to create the database:
 ```bash
 $ bin/rake db:create
