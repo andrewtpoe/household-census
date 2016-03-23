@@ -11,10 +11,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160322012641) do
+ActiveRecord::Schema.define(version: 20160323031757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "households", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zipcode"
+    t.integer  "number_of_bedrooms"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "households", ["user_id"], name: "index_households_on_user_id", using: :btree
+
+  create_table "residents", force: :cascade do |t|
+    t.integer  "household_id"
+    t.boolean  "is_user"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.integer  "age"
+    t.string   "gender"
+    t.string   "email"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -29,9 +54,25 @@ ActiveRecord::Schema.define(version: 20160322012641) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.integer  "household_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  create_table "vehicles", force: :cascade do |t|
+    t.integer  "household_id"
+    t.integer  "resident_id"
+    t.string   "year"
+    t.string   "make"
+    t.string   "model"
+    t.string   "license_plate"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_foreign_key "households", "users"
+  add_foreign_key "residents", "households"
+  add_foreign_key "vehicles", "households"
+  add_foreign_key "vehicles", "residents"
 end

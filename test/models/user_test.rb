@@ -3,7 +3,7 @@ require 'test_helper'
 class UserTest < ActiveSupport::TestCase
 
   def setup
-    @current_user = users(:one)
+    @user = users(:one)
   end
 
   test 'user can be created with valid attributes' do
@@ -15,23 +15,27 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'user not valid without email' do
-    @current_user.email = nil
-    refute @current_user.valid?
-    refute @current_user.save
+    @user.email = nil
+    refute @user.valid?
+    refute @user.save
   end
 
   test 'user email must be unique' do
     user = User.new
-    user.email = @current_user.email
+    user.email = @user.email
     user.password = 'password'
     refute user.valid?
     refute user.save
   end
 
   test 'user not valid without a password' do
-    @current_user.encrypted_password = nil
-    refute @current_user.valid?
-    refute @current_user.save
+    @user.encrypted_password = nil
+    refute @user.valid?
+    refute @user.save
+  end
+
+  test 'user can have household' do
+    assert @user.household
   end
 
 end

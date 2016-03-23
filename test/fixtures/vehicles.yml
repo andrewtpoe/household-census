@@ -1,0 +1,14 @@
+one:
+  household: one
+  resident: one
+  year: 2001
+  make: Test Make 1
+  model: Test Model 1
+  license_plate: ZZZ111
+two:
+  household: one
+  resident: one
+  year: 2002
+  make: Test Make 2
+  model: Test Model 2
+  license_plate: ZZZ222
