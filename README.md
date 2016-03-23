@@ -8,22 +8,26 @@ This project is live on Heroku! The master branch can be found at [https://house
 
 1. Clone the project and download it to your computer.
 2. Run the following terminal commands to install the needed gems and packages:
+
   ```bash
   $ bundle install
   $ npm install
   ```
-  _ * this project has both Rails and Node dependencies, and relies on PostgreSQL as it's database._
+
 3. Run the following terminal command to create the database:
+
   ```bash
   $ bin/rake db:create
   $ bin/rake db:migrate
   $ bin/rake db:test:prepare
   ```
+
 4. You should now be able to start the server with this command:
+
   ```bash
   $ bin/rails s
   ```
-  Navigate to [localhost:3000](localhost:3000) in your browser to view the project live!
+Navigate to [localhost:3000](localhost:3000) in your browser to view the project live!
 
 ## Testing the Project
 

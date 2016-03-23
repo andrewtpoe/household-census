@@ -1,0 +1,14 @@
+one:
+  household: one
+  first_name: Mark
+  last_name: Klein
+  age: 22
+  gender: male
+  email: test_first_person@gmail.com
+two:
+  household: one
+  first_name: Sarah
+  last_name: Klein
+  age: 23
+  gender: female
+  email: test_second_person@gmail.com

@@ -1,0 +1,7 @@
+one:
+  user: one
+  address: 123 Test Street
+  city: Test City
+  state: Test State
+  zipcode: 99999
+  number_of_bedrooms: 3
