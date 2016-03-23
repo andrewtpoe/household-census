@@ -38,7 +38,7 @@ group :test do
 end
 
 
-# I generally do not use these gems for devlopment or deployment.
+# I generally do not prefer to use these gems.
 
 # Use CoffeeScript for .coffee assets and views
 # gem 'coffee-rails', '~> 4.1.0'

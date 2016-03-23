@@ -20,4 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  application:
+    root:
+      title: "Household Census"
+      description: "This household-census application allows you to register your household, household members, and vehicles belonging to the members of your household."
