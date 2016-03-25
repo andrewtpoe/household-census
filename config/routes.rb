@@ -1,14 +1,25 @@
 Rails.application.routes.draw do
-  devise_for :users
+
+  devise_for :users, skip: [ :sessions, :registrations, :passwords ]
 
   root 'home#index'
 
   namespace :api, defaults: { format: :json } do
 
     namespace :v1 do
+
+      namespace :user do
+        resource :session, only: [ :create, :destroy ]
+        resource :registration, only: [ :create ]
+      end
+
     end
 
   end
+
+  # This sends all routes not specified above to the root url, which loads the SPA and handles routing on the client.
+  get '*path', to: 'home#index'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

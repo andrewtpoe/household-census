@@ -1,11 +1,17 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Children, Component, PropTypes } from 'react';
 
 class ApplicationContainer extends Component {
 
   render() {
-    return (
-      <div id="test" />
-    )
+    const childrenWithProps = Children.map(this.props.children, (child) =>
+      React.cloneElement(child, {})
+    );
+
+  return (
+    <div>
+      {childrenWithProps}
+    </div>
+  );
   }
 
 }
