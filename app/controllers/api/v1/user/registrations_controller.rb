@@ -3,21 +3,21 @@ class Api::V1::User::RegistrationsController < ApplicationController
 
   def create
     p = get_registration_params
-    if User.find_by(email: p[:email])
-      @errors = { email: [ 'Email already in use' ] }
-      render template: 'api/v1/errors', status: 401 and return
+    if p[:password] == p[:password_confirmation]
+      @current_user = User.find_by(email: p[:email])
+      if @current_user && @current_user.valid_password?(p[:password])
+        sign_in(:user, @current_user)
+        render template: 'api/v1/user/object', status: 200 and return
+      end
+      @current_user = User.new(p)
+      if @current_user.valid?
+        @current_user.save
+        sign_in(:user, @current_user)
+        render template: 'api/v1/user/object', status: 201 and return
+      end
     end
-    if p[:password] != p[:password_confirmation]
-      @errors = { password: [ 'Passwords do not match ' ] }
-      render template: 'api//v1/errors', status: 400 and return
-    end
-    if @current_user = User.create(email: p[:email], password: p[:password])
-      sign_in(:user, @current_user)
-      render template: 'api/v1/user/object', status: 201 and return
-    else
-      @errors = @current_user.errors.messages
-      render template: 'api/v1/errors', status: 400 and return
-    end
+    @errors = { signup: [ 'Invalid signup attempt' ] }
+    render template: 'api/v1/errors', status: 400 and return
   end
 
   private

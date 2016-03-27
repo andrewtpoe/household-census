@@ -1,0 +1,10 @@
+.form__tile {
+  border: 1px solid $block;
+  box-shadow: 0 5px 5px $text;
+  padding: 25px;
+}
+.form__centered {
+  margin: 15% auto;
+  width: 100%;
+  max-width: 400px;
+}

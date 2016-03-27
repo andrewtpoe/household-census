@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-import HomePage from '../components/pages/home';
+import HomePage from '../components/pages/home_page';
 
 class HomePageContainer extends Component {
 

@@ -20,10 +20,11 @@ class Api::V1::User::RegistrationsControllerTest < ActionController::TestCase
     assert_response 201
     assert User.all.length == number_of_users + 1
     r = JSON.parse(@response.body).deep_symbolize_keys
+    assert r[:current_sign_in_at]
     assert valid_user_object(r)
   end
 
-  test 'POST #create will not register a new user with same email as an existing user' do
+  test 'POST #create will sign in a user with same email as an existing user' do
     number_of_users = User.all.length
     params = {
       user: {
@@ -35,12 +36,13 @@ class Api::V1::User::RegistrationsControllerTest < ActionController::TestCase
     }
     refute @current_user.current_sign_in_at
     post :create, params
-    assert_response 401
+    assert_response 200
     assert User.all.length == number_of_users
     @current_user.reload
-    refute @current_user.current_sign_in_at
+    assert @current_user.current_sign_in_at
+    assert User.all.length == number_of_users
     r = JSON.parse(@response.body).deep_symbolize_keys
-    assert r[:errors].include?(:email)
+    assert @current_user.id == r[:id]
   end
 
   test 'POST #create will not register a new user if password and confirmation password do not match' do
@@ -57,7 +59,7 @@ class Api::V1::User::RegistrationsControllerTest < ActionController::TestCase
     assert_response 400
     assert User.all.length == number_of_users
     r = JSON.parse(@response.body).deep_symbolize_keys
-    assert r[:errors].include?(:password)
+    assert r[:errors].include?(:signup)
   end
 
 end

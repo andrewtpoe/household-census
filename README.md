@@ -57,7 +57,7 @@ $ bin/rake test
 
 To run the JavaScript tests:
 ```bash
-$ bin/rake teaspoon
+$ npm run test
 ```
 
 ## Contributing

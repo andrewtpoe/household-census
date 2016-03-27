@@ -6,12 +6,11 @@ class ApplicationContainer extends Component {
     const childrenWithProps = Children.map(this.props.children, (child) =>
       React.cloneElement(child, {})
     );
-
-  return (
-    <div>
-      {childrenWithProps}
-    </div>
-  );
+    return (
+      <div>
+        {childrenWithProps}
+      </div>
+    );
   }
 
 }
