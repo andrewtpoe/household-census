@@ -12,6 +12,13 @@ export function setLoginFormEmail(email = '') {
   };
 };
 
+export function setLoginFormErrors(errors = {}) {
+  return {
+    type: 'SET_LOGIN_FORM_ERRORS',
+    errors,
+  };
+};
+
 export function setLoginFormPassword(password = '') {
   return {
     type: 'SET_LOGIN_FORM_PASSWORD',

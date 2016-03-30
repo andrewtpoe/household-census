@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import {
   setLoginFormDisplay,
   setLoginFormEmail,
+  setLoginFormErrors,
   setLoginFormPassword,
   setLoginFormConfirmPassword,
 } from '../../../../app/assets/javascripts/actions/view/login_form_actions';
@@ -54,6 +55,25 @@ describe('login_form_actions', () => {
     expect(setLoginFormAction).to.deep.equal({
       type: 'SET_LOGIN_FORM_EMAIL',
       email: 'test_email@gmail.com',
+    });
+  });
+
+  it('set login form errors should return errors: {} if not given a value', () => {
+    const setLoginFormAction = setLoginFormErrors();
+    expect(setLoginFormAction).to.deep.equal({
+      type: 'SET_LOGIN_FORM_ERRORS',
+      errors: {},
+    });
+  });
+
+  it('set login form email should return an action with the correct errors value', () => {
+    const errors = {
+      testErrors: ['test error'],
+    };
+    const setLoginFormAction = setLoginFormErrors(errors);
+    expect(setLoginFormAction).to.deep.equal({
+      type: 'SET_LOGIN_FORM_ERRORS',
+      errors: errors,
     });
   });
 

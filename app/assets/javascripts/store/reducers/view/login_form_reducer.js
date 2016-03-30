@@ -3,6 +3,7 @@ export const initialState = {
   email: '',
   password: '',
   confirmPassword: '',
+  errors: {},
 };
 
 export default function (state = initialState, action) {
@@ -14,6 +15,10 @@ export default function (state = initialState, action) {
     case 'SET_LOGIN_FORM_EMAIL':
       return Object.assign({}, state, {
         email: action.email,
+      });
+    case 'SET_LOGIN_FORM_ERRORS':
+      return Object.assign({}, state, {
+        errors: action.errors,
       });
     case 'SET_LOGIN_FORM_PASSWORD':
       return Object.assign({}, state, {

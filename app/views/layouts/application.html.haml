@@ -2,6 +2,7 @@
 %html{ lang: 'en' }
   %head
     %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{name: 'viewport', content: 'width=device-width, initial-scale=1'}/
     = tag :meta, description: I18n.translate('application.root.description')
     %title= content_for?(:title) ? yield(:title) : t('application.root.title')
     = stylesheet_link_tag 'application', media: 'all'
@@ -11,3 +12,6 @@
     = yield
 
     = javascript_include_tag 'application', async: true
+
+    %script{ type: "text/javascript", src: "https://code.jquery.com/jquery-2.2.2.min.js"}
+    %script{ typs: "text/javascript", src: "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js",  integrity: "sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS", crossorigin: "anonymous"}

@@ -35,6 +35,19 @@ describe('login_form_reducer', () => {
     expect(result.email).to.equal('test_email@gmail.com');
   });
 
+  it('"SET_LOGIN_FORM_ERRORS" action type should return state with errors value', () => {
+    const action = {
+      type: 'SET_LOGIN_FORM_ERRORS',
+      errors: {
+        testErrors: ['test error'],
+      },
+    };
+    const result = loginFormReducer(undefined, action);
+    expect(result.errors).to.deep.equal({
+      testErrors: ['test error'],
+    });
+  });
+
   it('"SET_LOGIN_FORM_PASSWORD" action type should return state with password value', () => {
     const action = {
       type: 'SET_LOGIN_FORM_PASSWORD',
