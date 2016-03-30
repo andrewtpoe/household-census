@@ -5,8 +5,13 @@ import ApplicationContainer from './containers/application_container';
 import HomePageContainer from './containers/home_page_container';
 import LoginPageContainer from './containers/login_page_container';
 
+import { getRequest } from './ajax';
+
 import { connect } from 'react-redux';
-import redux from 'redux';
+import { bindActionCreators } from 'redux';
+import {
+  setUser,
+} from './actions/user_actions';
 
 function mapStateToProps(state) {
   return {
@@ -14,9 +19,18 @@ function mapStateToProps(state) {
   };
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      setUser,
+    }, dispatch)
+  }
+}
+
 class Routes extends Component {
 
   static propTypes = {
+    actions: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
   }
 
@@ -26,28 +40,39 @@ class Routes extends Component {
     this._userIsAuthorized = this._userIsAuthorized.bind(this);
   }
 
-  _requireAuth(nextState, replace) {
-    const authorized = this._userIsAuthorized();
+  async _requireAuth(nextState, replace) {
+    const authorized = await this._userIsAuthorized();
     if (!authorized) {
-      replace({
+      browserHistory.replace({
         pathname: '/login',
         state: {
           nextPathname: nextState.location.pathname,
         },
-      })
+      });
     }
   }
 
-  _userIsAuthorized() {
-    let authorized;
-    if (this.props.user.current_sign_in_at) {
-      authorized = true;
+  async _userIsAuthorized() {
+    const {
+      actions: {
+        setUser,
+      },
+      user,
+    } = this.props;
+    if (user.current_sign_in_at) {
+      return true;
     }
-    return authorized;
+    const url = 'api/v1/user';
+    const response = await getRequest(url);
+    if (response.ok) {
+      setUser(response.body);
+      return true;
+    }
+    setUser();
+    return undefined;
   }
 
   render() {
-    const userIsAuthorized = this._userIsAuthorized;
     return (
       <Router history={browserHistory} >
         <Route
@@ -67,4 +92,4 @@ class Routes extends Component {
 
 }
 
-export default connect(mapStateToProps)(Routes);
+export default connect(mapStateToProps, mapDispatchToProps)(Routes);

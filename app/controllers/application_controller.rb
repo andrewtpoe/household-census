@@ -6,4 +6,11 @@ class ApplicationController < ActionController::Base
 
   before_action :authenticate_user!
 
+  def authenticate_user!
+    unless user_signed_in?
+      @errors = { unauthorized: [ 'User is not signed in' ] }
+      render template: 'api/v1/errors', status: 401 and return
+    end
+  end
+
 end

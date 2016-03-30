@@ -1,6 +1,21 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
+const _buildErrors = ({ ...props }) => {
+  const {
+    loginForm: {
+      errors,
+    },
+  } = { ...props };
+  if (errors && errors.login && errors.login.length > 0) {
+    return (
+      <div className={`form-group text-center has-error}`} >
+        {errors.login.map(e => <div className="text-warning" >{e}</div>)}
+      </div>
+    )
+  }
+};
+
 const _buildForm = ({ ...props }) => {
   const {
     history,
@@ -14,13 +29,14 @@ const _buildForm = ({ ...props }) => {
       email,
       password,
       confirmPassword,
+      errors,
     },
   } = { ...props };
   if (display === 'signIn') {
     return (
       <section >
         <form >
-          <div className="form-group" >
+          <div className={`form-group ${errors && errors.login && errors.login.length > 0 ? 'has-error' : ''}`} >
             <label className="sr-only" >
               Email
             </label>
@@ -35,7 +51,7 @@ const _buildForm = ({ ...props }) => {
               }}
             />
           </div>
-          <div className="form-group" >
+          <div className={`form-group ${errors && errors.login && errors.login.length > 0 ? 'has-error' : ''}`} >
             <label className="sr-only" >
               Password
             </label>
@@ -71,7 +87,7 @@ const _buildForm = ({ ...props }) => {
               _onDisplayChangeClicked('signUp');
             }}
           >
-            Not a member? Sign Up
+            Not account yet? Sign Up
           </Link>
         </div>
       </section>
@@ -88,7 +104,7 @@ const _buildForm = ({ ...props }) => {
             Enter
           </Link>
         </div>
-        <div className="form-group" >
+        <div className="form-group">
           <Link
             to="/"
             className="btn btn-block btn-lg btn-danger"
@@ -107,7 +123,7 @@ const _buildForm = ({ ...props }) => {
     return (
       <section >
         <form >
-          <div className="form-group" >
+          <div className={`form-group ${errors && errors.login && errors.login.length > 0 ? 'has-error' : ''}`} >
             <label className="sr-only" >
               Email
             </label>
@@ -122,7 +138,7 @@ const _buildForm = ({ ...props }) => {
               }}
             />
           </div>
-          <div className="form-group" >
+          <div className={`form-group ${errors && errors.login && errors.login.length > 0 ? 'has-error' : ''}`} >
             <label className="sr-only" >
               Password
             </label>
@@ -137,7 +153,7 @@ const _buildForm = ({ ...props }) => {
               }}
             />
           </div>
-          <div className="form-group" >
+          <div className={`form-group ${errors && errors.login && errors.login.length > 0 ? 'has-error' : ''}`} >
             <label className="sr-only" >
               Confirm Password
             </label>
@@ -173,7 +189,7 @@ const _buildForm = ({ ...props }) => {
               _onDisplayChangeClicked('signIn');
             }}
           >
-            Already a member? Sign In
+            Already have an account? Sign In
           </Link>
         </div>
       </section>
@@ -188,6 +204,7 @@ const loginForm = ({ ...props }) => {
       <div className="row" >
         <div className="center-block form__tile form__centered" >
           <h1 className="text-center" >Household Census</h1>
+          {_buildErrors({ ...props })}
           {_buildForm({ ...props })}
         </div>
       </div>

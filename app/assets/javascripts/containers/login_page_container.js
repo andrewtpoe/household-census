@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 
 import {
+  getRequest,
   postRequest,
-  deleteRequest
 } from '../ajax';
 
 import LoginPage from '../components/pages/login_page';
@@ -12,6 +12,7 @@ import { bindActionCreators } from 'redux';
 import {
   setLoginFormDisplay,
   setLoginFormEmail,
+  setLoginFormErrors,
   setLoginFormPassword,
   setLoginFormConfirmPassword,
 } from '../actions/view/login_form_actions';
@@ -31,6 +32,7 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
       setLoginFormDisplay,
       setLoginFormEmail,
+      setLoginFormErrors,
       setLoginFormPassword,
       setLoginFormConfirmPassword,
       setUser,
@@ -55,15 +57,26 @@ class LoginPageContainer extends Component {
     this._handleEmailChange = this._handleEmailChange.bind(this);
     this._handlePasswordChange = this._handlePasswordChange.bind(this);
     this._handleSignIn = this._handleSignIn.bind(this);
-    this._handleSignOut = this._handleSignOut.bind(this);
     this._handleSignUp = this._handleSignUp.bind(this);
     this._onActionButtonClicked = this._onActionButtonClicked.bind(this);
     this._onDisplayChangeClicked = this._onDisplayChangeClicked.bind(this);
   }
 
-  componentDidMount() {
-    if (this.props.user.current_sign_in_at) {
-      this.props.actions.setLoginFormDisplay('signOut');
+  async componentDidMount() {
+    const {
+      actions: {
+        setLoginFormDisplay,
+        setUser,
+      },
+      user,
+    } = this.props;
+    if (!user || !user.current_sign_in_at) {
+      const url = 'api/v1/user';
+      const response = await getRequest(url);
+      if (response.ok) {
+        setUser(response.body);
+        setLoginFormDisplay('signOut');
+      }
     }
   }
 
@@ -71,7 +84,7 @@ class LoginPageContainer extends Component {
     this.props.actions.setLoginFormEmail();
     this.props.actions.setLoginFormPassword();
     this.props.actions.setLoginFormConfirmPassword();
-
+    this.props.actions.setLoginFormErrors();
   }
 
   _handleConfirmPasswordChange(value) {
@@ -90,6 +103,7 @@ class LoginPageContainer extends Component {
     const {
       actions: {
         setUser,
+        setLoginFormErrors,
       },
       loginForm: {
         email,
@@ -103,34 +117,22 @@ class LoginPageContainer extends Component {
         password,
       }
     };
-    const user = await postRequest(url, data);
-    if (user && user.current_sign_in_at) {
-      setUser(user);
+    const response = await postRequest(url, data);
+    if (response.ok) {
+      setUser(response.body);
       this._clearInputs();
       this.context.router.push('/');
-    };
-  }
-
-  async _handleSignOut() {
-    const {
-      actions: {
-        setUser,
-        setLoginFormDisplay,
-      },
-    } = this.props;
-    const url = '/api/v1/user/session';
-    const response = await deleteRequest(url);
-    if (response.ok) {
+    } else {
       setUser();
-      setLoginFormDisplay('signIn');
-      this.context.router.push('/');
-    }
+      setLoginFormErrors(response.body.errors);
+    };
   }
 
   async _handleSignUp() {
     const {
       actions: {
         setUser,
+        setLoginFormErrors,
       },
       loginForm: {
         email,
@@ -138,7 +140,6 @@ class LoginPageContainer extends Component {
         confirmPassword,
       },
     } = this.props;
-    const url = '/api/v1/user/registration'
     const data = {
       user: {
         email,
@@ -146,16 +147,29 @@ class LoginPageContainer extends Component {
         password_confirmation: confirmPassword,
       }
     };
-    const user = await postRequest(url, data);
-    if (user && user.current_sign_in_at) {
-      setUser(user);
-      this._clearInputs();
-      this.context.router.push('/');
-    };
+    let errors = [];
+    if (password === confirmPassword) {
+      const url = '/api/v1/user/registration'
+      const response = await postRequest(url, data);
+      if (response.ok) {
+        setUser(response.body);
+        this._clearInputs();
+        this.context.router.push('/');
+      } else {
+        errors = response.body.errors;
+      }
+    } else {
+      errors = {
+        login: ['Passwords do not match'],
+      };
+    }
+    setUser();
+    setLoginFormErrors(errors);
   }
 
   _onActionButtonClicked() {
     const {
+      _handleSignOut,
       loginForm: {
         display,
       },
@@ -163,7 +177,7 @@ class LoginPageContainer extends Component {
     if (display === 'signIn') {
       this._handleSignIn();
     } else if (display === 'signOut') {
-      this._handleSignOut();
+      _handleSignOut();
     } else if (display === 'signUp') {
       this._handleSignUp();
     };

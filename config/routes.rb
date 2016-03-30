@@ -8,6 +8,8 @@ Rails.application.routes.draw do
 
     namespace :v1 do
 
+      resource :user, only: [ :show ]
+
       namespace :user do
         resource :session, only: [ :create, :destroy ]
         resource :registration, only: [ :create ]

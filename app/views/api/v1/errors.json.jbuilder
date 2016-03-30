@@ -1,2 +1,2 @@
-json.object_type 'errors'
+json.object_type 'error'
 json.errors @errors

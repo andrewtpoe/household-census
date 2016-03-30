@@ -3,8 +3,9 @@ import 'whatwg-fetch';
 const token = document.getElementsByName('csrf-token')[0].content;
 
 export async function getRequest(url) {
-  console.log(`getting data from ${url}`);
-  const r = await fetch(url, {
+  // console.log(`getting data from ${url}`);
+  let fullResponse;
+  const body = await fetch(url, {
     credentials: 'same-origin',
     headers: {
       'Accept': 'application/json',
@@ -13,16 +14,29 @@ export async function getRequest(url) {
     },
     method: 'get',
   }).then((response) => {
+    fullResponse = response;
     return response.json();
+  }).then((b) => {
+    return b;
+  }).catch((err) => {
+    alert(err);
   });
-  return r;
+  return {
+    body: body,
+    ok: fullResponse.ok,
+    status: fullResponse.status,
+    statusText: fullResponse.statusText,
+    type: fullResponse.type,
+    url: fullResponse.url
+  };
 };
 
 export async function postRequest(url, data) {
-  console.log('posting: ');
-  console.log(data);
-  console.log(`to ${url}`);
-  const r = await fetch(url, {
+  // console.log('posting: ');
+  // console.log(data);
+  // console.log(`to ${url}`);
+  let fullResponse;
+  const body = await fetch(url, {
     body: JSON.stringify(data),
     credentials: 'same-origin',
     headers: {
@@ -32,16 +46,29 @@ export async function postRequest(url, data) {
     },
     method: 'post',
   }).then((response) => {
+    fullResponse = response;
     return response.json();
+  }).then((b) => {
+    return b;
+  }).catch((err) => {
+    alert(err);
   });
-  return r;
+  return {
+    body: body,
+    ok: fullResponse.ok,
+    status: fullResponse.status,
+    statusText: fullResponse.statusText,
+    type: fullResponse.type,
+    url: fullResponse.url
+  };
 };
 
 export async function patchRequest(url, data) {
-  console.log('patching: ');
-  console.log(data);
-  console.log(`to ${url}`);
-  const r = await fetch(url, {
+  // console.log('patching: ');
+  // console.log(data);
+  // console.log(`to ${url}`);
+  let fullResponse;
+  const body = await fetch(url, {
     body: JSON.stringify(data),
     credentials: 'same-origin',
     headers: {
@@ -51,14 +78,27 @@ export async function patchRequest(url, data) {
     },
     method: 'patch',
   }).then((response) => {
+    fullResponse = response;
     return response.json();
+  }).then((b) => {
+    return b;
+  }).catch((err) => {
+    alert(err);
   });
-  return r;
+  return {
+    body: body,
+    ok: fullResponse.ok,
+    status: fullResponse.status,
+    statusText: fullResponse.statusText,
+    type: fullResponse.type,
+    url: fullResponse.url
+  };
 };
 
 export async function deleteRequest(url) {
-  console.log(`deleting from ${url}`);
-  const r = await fetch(url, {
+  // console.log(`deleting from ${url}`);
+  let fullResponse;
+  const body = await fetch(url, {
     credentials: 'same-origin',
     headers: {
       'Accept': 'application/json',
@@ -67,7 +107,13 @@ export async function deleteRequest(url) {
     },
     method: 'delete',
   }).then((response) => {
-    return response;
+    fullResponse = response;
   });
-  return r;
+  return {
+    ok: fullResponse.ok,
+    status: fullResponse.status,
+    statusText: fullResponse.statusText,
+    type: fullResponse.type,
+    url: fullResponse.url
+  };
 };

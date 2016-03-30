@@ -1,3 +1,21 @@
+/*
+ *
+ * Required to animate collapse with bootstrap.native.js
+ *
+*/
+
+.collapse {
+  transition: height .3s ease-out;
+  /*-webkit-transition: height .3s ease-out*/
+}
+
+
+/*
+ *
+ * Mixins I find useful.
+ *
+*/
+
 @mixin transformTranslate($x, $y) {
   -webkit-transform: translate($x, $y);
           transform: translate($x, $y);
