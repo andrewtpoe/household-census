@@ -6,8 +6,8 @@ class HomePageContainer extends Component {
 
   render() {
     const props = this.props;
-    console.log('*** HomePageContainer props ***');
-    console.log(props);
+    // console.log('*** HomePageContainer props ***');
+    // console.log(props);
     return (
       <HomePage { ...props }/>
     );
