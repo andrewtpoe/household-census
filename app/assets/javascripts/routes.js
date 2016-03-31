@@ -2,8 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 import ApplicationContainer from './containers/application_container';
-import HomePageContainer from './containers/home_page_container';
 import LoginPageContainer from './containers/login_page_container';
+
+import HomePage from './components/pages/home_page';
 
 import { getRequest } from './ajax';
 
@@ -30,9 +31,11 @@ function mapDispatchToProps(dispatch) {
 class Routes extends Component {
 
   static propTypes = {
-    actions: PropTypes.object.isRequired,
+    actions: PropTypes.shape({
+      setUser: PropTypes.func.isRequired,
+    }),
     user: PropTypes.object.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -80,7 +83,7 @@ class Routes extends Component {
           component={ApplicationContainer}
           onEnter={this._requireAuth}
         >
-          <IndexRoute component={HomePageContainer} />
+          <IndexRoute component={HomePage} />
         </Route>
         <Route path='/' component={ApplicationContainer} >
           <Route path='login' component={LoginPageContainer} />

@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
 
 import Header from '../header';
+
+import CensusFormContainer from '../../containers/census_form_container';
 
 const homePage = ({ ...props }) => {
   const p = { ...props };
@@ -10,6 +11,7 @@ const homePage = ({ ...props }) => {
       <Header
         _handleSignOut={p._handleSignOut}
       />
+      <CensusFormContainer { ...props } />
     </div>
   );
 };

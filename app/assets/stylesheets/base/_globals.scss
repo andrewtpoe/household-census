@@ -1,0 +1,57 @@
+/*
+ *
+ * Creates classes that allow various size margins to be added to the 4 walls
+ *
+ */
+
+$margins: (xs: 5px, sm: 10px, md: 15px, lg: 20px, xl: 25px);
+
+@each $name, $value in $margins {
+  .margin-top-#{$name} {
+    margin-top: $value;
+  }
+
+  .margin-bottom-#{$name} {
+    margin-bottom: $value;
+  }
+}
+
+/*
+ *
+ * Creates classes that remove padding at the various break points
+ *
+ */
+
+$name-list: top, right, bottom, left;
+$screen-min-size-list: (sm: $sm-min, md: $md-min, lg: $lg-min);
+
+@each $name in $name-list {
+  .no-padding-#{$name} {
+    padding-#{$name}: 0;
+  }
+  @each $size, $pixels in $screen-min-size-list {
+    .no-padding-#{$name}-#{$size} {
+      @media all and (max-width: $pixels) {
+        padding-#{$name}: 0;
+      }
+    }
+  }
+}
+
+/*
+ *
+ * Allow for vertical align middle to look ok inline with form inputs
+ *
+ */
+
+$screen-max-size-list: (xs: $xs-max, sm: $sm-max, md: $md-max);
+
+@each $size, $pixels in $screen-max-size-list {
+  .vertical-text-align-middle-#{$size} {
+    @media all and (min-width: $pixels) {
+      display: block;
+      height: 34px;
+      line-height: 34px;
+    }
+  }
+}

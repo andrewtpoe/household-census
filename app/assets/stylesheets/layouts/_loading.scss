@@ -2,7 +2,7 @@
   margin-top: 50px;
   max-width: 400px;
   text-align: center;
-  @media all and (min-width: $s-min) {
+  @media all and (min-width: $sm-max) {
     margin-top: 150px;
   }
 }

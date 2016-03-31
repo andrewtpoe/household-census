@@ -43,24 +43,20 @@ function mapDispatchToProps(dispatch) {
 class LoginPageContainer extends Component {
 
   static propTypes = {
+    actions: PropTypes.shape({
+      setLoginFormDisplay: PropTypes.func.isRequired,
+      setLoginFormEmail: PropTypes.func.isRequired,
+      setLoginFormErrors: PropTypes.func.isRequired,
+      setLoginFormPassword: PropTypes.func.isRequired,
+      setLoginFormConfirmPassword: PropTypes.func.isRequired,
+      setUser: PropTypes.func.isRequired,
+    }),
     user: PropTypes.object.isRequired,
   }
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   };
-
-  constructor(props) {
-    super(props);
-    this._clearInputs = this._clearInputs.bind(this);
-    this._handleConfirmPasswordChange = this._handleConfirmPasswordChange.bind(this);
-    this._handleEmailChange = this._handleEmailChange.bind(this);
-    this._handlePasswordChange = this._handlePasswordChange.bind(this);
-    this._handleSignIn = this._handleSignIn.bind(this);
-    this._handleSignUp = this._handleSignUp.bind(this);
-    this._onActionButtonClicked = this._onActionButtonClicked.bind(this);
-    this._onDisplayChangeClicked = this._onDisplayChangeClicked.bind(this);
-  }
 
   async componentDidMount() {
     const {
@@ -80,26 +76,26 @@ class LoginPageContainer extends Component {
     }
   }
 
-  _clearInputs() {
+  _clearInputs = () => {
     this.props.actions.setLoginFormEmail();
     this.props.actions.setLoginFormPassword();
     this.props.actions.setLoginFormConfirmPassword();
     this.props.actions.setLoginFormErrors();
   }
 
-  _handleConfirmPasswordChange(value) {
+  _handleConfirmPasswordChange = (value) => {
     this.props.actions.setLoginFormConfirmPassword(value);
   }
 
-  _handleEmailChange(value) {
+  _handleEmailChange = (value) => {
     this.props.actions.setLoginFormEmail(value);
   }
 
-  _handlePasswordChange(value) {
+  _handlePasswordChange = (value) => {
     this.props.actions.setLoginFormPassword(value);
   }
 
-  async _handleSignIn() {
+  _handleSignIn = async () => {
     const {
       actions: {
         setUser,
@@ -128,7 +124,7 @@ class LoginPageContainer extends Component {
     };
   }
 
-  async _handleSignUp() {
+  _handleSignUp = async () => {
     const {
       actions: {
         setUser,
@@ -167,7 +163,7 @@ class LoginPageContainer extends Component {
     setLoginFormErrors(errors);
   }
 
-  _onActionButtonClicked() {
+  _onActionButtonClicked = () => {
     const {
       _handleSignOut,
       loginForm: {
@@ -183,7 +179,7 @@ class LoginPageContainer extends Component {
     };
   }
 
-  _onDisplayChangeClicked(value) {
+  _onDisplayChangeClicked = (value) => {
     this.props.actions.setLoginFormDisplay(value);
   }
 

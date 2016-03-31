@@ -37,12 +37,16 @@ const _buildForm = ({ ...props }) => {
       <section >
         <form >
           <div className={`form-group ${errors && errors.login && errors.login.length > 0 ? 'has-error' : ''}`} >
-            <label className="sr-only" >
+            <label
+              className="sr-only"
+              htmlFor="email"
+            >
               Email
             </label>
             <input
               type="email"
               className="form-control"
+              id="email"
               placeholder="email"
               value={email}
               onChange={(e) => {
@@ -52,12 +56,16 @@ const _buildForm = ({ ...props }) => {
             />
           </div>
           <div className={`form-group ${errors && errors.login && errors.login.length > 0 ? 'has-error' : ''}`} >
-            <label className="sr-only" >
+            <label
+              className="sr-only"
+              htmlFor="password"
+            >
               Password
             </label>
             <input
               type="password"
               className="form-control"
+              id="password"
               placeholder="password"
               value={password}
               onChange={(e) => {
@@ -124,12 +132,16 @@ const _buildForm = ({ ...props }) => {
       <section >
         <form >
           <div className={`form-group ${errors && errors.login && errors.login.length > 0 ? 'has-error' : ''}`} >
-            <label className="sr-only" >
+            <label
+              className="sr-only"
+              htmlFor="email"
+            >
               Email
             </label>
             <input
               type="email"
               className="form-control"
+              id="email"
               placeholder="email"
               value={email}
               onChange={(e) => {
@@ -139,12 +151,16 @@ const _buildForm = ({ ...props }) => {
             />
           </div>
           <div className={`form-group ${errors && errors.login && errors.login.length > 0 ? 'has-error' : ''}`} >
-            <label className="sr-only" >
+            <label
+              className="sr-only"
+              htmlFor="password"
+            >
               Password
             </label>
             <input
               type="password"
               className="form-control"
+              id="password"
               placeholder="password"
               value={password}
               onChange={(e) => {
@@ -154,12 +170,16 @@ const _buildForm = ({ ...props }) => {
             />
           </div>
           <div className={`form-group ${errors && errors.login && errors.login.length > 0 ? 'has-error' : ''}`} >
-            <label className="sr-only" >
+            <label
+              className="sr-only"
+              htmlFor="confirm-password"
+            >
               Confirm Password
             </label>
             <input
               type="password"
               className="form-control"
+              id="confirm-password"
               placeholder="confirm password"
               value={confirmPassword}
               onChange={(e) => {

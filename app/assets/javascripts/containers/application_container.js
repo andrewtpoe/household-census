@@ -25,19 +25,17 @@ function mapDispatchToProps(dispatch) {
 class ApplicationContainer extends Component {
 
   static propTypes = {
-    actions: PropTypes.object.isRequired,
+    actions: PropTypes.shape({
+      setLoginFormDisplay: PropTypes.func.isRequired,
+      setUser: PropTypes.func.isRequired,
+    }),
   }
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    this._handleSignOut = this._handleSignOut.bind(this);
-  }
-
-  async _handleSignOut() {
+  _handleSignOut = async () => {
     const {
       actions: {
         setUser,
