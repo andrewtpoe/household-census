@@ -1,37 +1,36 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-const _buildErrors = ({ ...props }) => {
-  const {
-    loginForm: {
-      errors,
-    },
-  } = { ...props };
+const _buildErrors = ({
+  loginForm: {
+    errors,
+  },
+}) => {
   if (errors && errors.login && errors.login.length > 0) {
     return (
       <div className={`form-group text-center has-error}`} >
-        {errors.login.map(e => <div className="text-warning" >{e}</div>)}
+        {errors.login.map((e, i) => (
+          <div key={i} className="text-warning" >{e}</div>
+        ))}
       </div>
     )
   }
 };
 
-const _buildForm = ({ ...props }) => {
-  const {
-    history,
-    _handleEmailChange,
-    _handlePasswordChange,
-    _handleConfirmPasswordChange,
-    _onActionButtonClicked,
-    _onDisplayChangeClicked,
-    loginForm: {
-      display,
-      email,
-      password,
-      confirmPassword,
-      errors,
-    },
-  } = { ...props };
+const _buildForm = ({
+  _onActionButtonClicked,
+  _onDisplayChangeClicked,
+  actions: {
+    setLoginFormValues,
+  },
+  loginForm: {
+    display,
+    email,
+    password,
+    confirmPassword,
+    errors,
+  },
+}) => {
   if (display === 'signIn') {
     return (
       <section >
@@ -51,7 +50,9 @@ const _buildForm = ({ ...props }) => {
               value={email}
               onChange={(e) => {
                 e.preventDefault();
-                _handleEmailChange(e.target.value);
+                setLoginFormValues({
+                  email: e.target.value,
+                });
               }}
             />
           </div>
@@ -70,7 +71,9 @@ const _buildForm = ({ ...props }) => {
               value={password}
               onChange={(e) => {
                 e.preventDefault();
-                _handlePasswordChange(e.target.value);
+                setLoginFormValues({
+                  password: e.target.value,
+                });
               }}
             />
           </div>
@@ -146,7 +149,9 @@ const _buildForm = ({ ...props }) => {
               value={email}
               onChange={(e) => {
                 e.preventDefault();
-                _handleEmailChange(e.target.value);
+                setLoginFormValues({
+                  email: e.target.value,
+                });
               }}
             />
           </div>
@@ -165,7 +170,9 @@ const _buildForm = ({ ...props }) => {
               value={password}
               onChange={(e) => {
                 e.preventDefault();
-                _handlePasswordChange(e.target.value);
+                setLoginFormValues({
+                  password: e.target.value,
+                });
               }}
             />
           </div>
@@ -184,7 +191,9 @@ const _buildForm = ({ ...props }) => {
               value={confirmPassword}
               onChange={(e) => {
                 e.preventDefault();
-                _handleConfirmPasswordChange(e.target.value);
+                setLoginFormValues({
+                  confirmPassword: e.target.value,
+                });
               }}
             />
           </div>
@@ -217,19 +226,16 @@ const _buildForm = ({ ...props }) => {
   }
 };
 
-const loginForm = ({ ...props }) => {
-  const p = { ...props };
-  return (
-    <section className="container-fluid" >
-      <div className="row" >
-        <div className="center-block form__tile form__centered" >
-          <h1 className="text-center" >Household Census</h1>
-          {_buildErrors({ ...props })}
-          {_buildForm({ ...props })}
-        </div>
+const loginForm = ({ ...props }) => (
+  <section className="container-fluid" >
+    <div className="row" >
+      <div className="center-block form__tile form__centered" >
+        <h1 className="text-center" >Household Census</h1>
+        {_buildErrors({ ...props })}
+        {_buildForm({ ...props })}
       </div>
-    </section>
-  )
-};
+    </div>
+  </section>
+);
 
 export default loginForm;

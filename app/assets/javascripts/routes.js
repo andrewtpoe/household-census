@@ -10,9 +10,7 @@ import { getRequest } from './ajax';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {
-  setUser,
-} from './actions/user_actions';
+import { setUser } from './actions/user_actions';
 
 function mapStateToProps(state) {
   return {
@@ -37,13 +35,7 @@ class Routes extends Component {
     user: PropTypes.object.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    this._requireAuth = this._requireAuth.bind(this);
-    this._userIsAuthorized = this._userIsAuthorized.bind(this);
-  }
-
-  async _requireAuth(nextState, replace) {
+  _requireAuth = async (nextState, replace) => {
     const authorized = await this._userIsAuthorized();
     if (!authorized) {
       browserHistory.replace({
@@ -55,7 +47,7 @@ class Routes extends Component {
     }
   }
 
-  async _userIsAuthorized() {
+  _userIsAuthorized = async () => {
     const {
       actions: {
         setUser,

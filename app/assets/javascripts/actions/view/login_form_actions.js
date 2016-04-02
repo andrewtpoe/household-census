@@ -1,34 +1,19 @@
-export function setLoginFormDisplay(display = 'signIn') {
+export function setLoginFormValues(values = {}) {
+  const keys = Object.keys(values);
+  const updates = {};
+  let i;
+  for (i = 0; i < keys.length; i++) {
+    updates[keys[i]] = values[keys[i]];
+  }
   return {
-    type: 'SET_LOGIN_FORM_DISPLAY',
-    display,
+    type: 'SET_LOGIN_FORM_VALUES',
+    ...updates,
   };
-};
+}
 
-export function setLoginFormEmail(email = '') {
-  return {
-    type: 'SET_LOGIN_FORM_EMAIL',
-    email,
-  };
-};
 
-export function setLoginFormErrors(errors = {}) {
+export function setLoginFormValuesToDefault() {
   return {
-    type: 'SET_LOGIN_FORM_ERRORS',
-    errors,
+    type: 'SET_LOGIN_FORM_VALUES_TO_DEFAULT',
   };
-};
-
-export function setLoginFormPassword(password = '') {
-  return {
-    type: 'SET_LOGIN_FORM_PASSWORD',
-    password,
-  };
-};
-
-export function setLoginFormConfirmPassword(confirmPassword = '') {
-  return {
-    type: 'SET_LOGIN_FORM_CONFIRM_PASSWORD',
-    confirmPassword,
-  };
-};
+}
