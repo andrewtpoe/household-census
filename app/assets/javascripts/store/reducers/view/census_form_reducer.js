@@ -1,14 +1,15 @@
 export const initialState = {
-  display: 'signIn',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  errors: [],
+  display: 'house',
+  address: '',
+  city: '',
+  state: '',
+  zipCode: '',
+  numberOfBedrooms: undefined,
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case 'SET_LOGIN_FORM_VALUES':
+    case 'SET_CENSUS_FORM_VALUES':
       const updates = {};
       const keys = Object.keys(action)
         .map(k => k !== 'type' ? k : undefined)
@@ -21,7 +22,7 @@ export default function (state = initialState, action) {
         ...state,
         ...updates,
       };
-    case 'SET_LOGIN_FORM_VALUES_TO_DEFAULT':
+    case 'SET_CENSUS_FORM_VALUES_TO_DEFAULT':
       return {
         ...initialState,
       };

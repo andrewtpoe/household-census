@@ -1,4 +1,4 @@
-export function setLoginFormValues(values = {}) {
+export function setCensusFormValues(values = {}) {
   const keys = Object.keys(values);
   const updates = {};
   let i;
@@ -6,14 +6,14 @@ export function setLoginFormValues(values = {}) {
     updates[keys[i]] = values[keys[i]];
   }
   return {
-    type: 'SET_LOGIN_FORM_VALUES',
+    type: 'SET_CENSUS_FORM_VALUES',
     ...updates,
   };
 }
 
 
-export function setLoginFormValuesToDefault() {
+export function setCensusFormValuesToDefault() {
   return {
-    type: 'SET_LOGIN_FORM_VALUES_TO_DEFAULT',
+    type: 'SET_CENSUS_FORM_VALUES_TO_DEFAULT',
   };
 }

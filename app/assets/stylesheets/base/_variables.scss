@@ -9,11 +9,6 @@ $yellow: #fff921;
 $green: #089e08;
 $text: #2b2b2b;
 
-// Bootstrap's Break points:
-$s-min: 480px;
-$m-min: 768px;
-$l-min: 1080px;
-
 // Bootstrap variables
 $body-bg: $background;
 $text-color: $text;
@@ -21,3 +16,11 @@ $brand-primary: $blue;
 $brand-success: $green;
 $brand-info: $yellow;
 $brand-danger: $red;
+
+// Bootstrap's Break points:
+$xs-max: 767px;
+$sm-min: 767px;
+$sm-max: 991px;
+$md-min: 991px;
+$md-max: 1199px;
+$lg-min: 1199px;

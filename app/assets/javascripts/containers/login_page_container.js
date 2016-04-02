@@ -10,15 +10,10 @@ import LoginPage from '../components/pages/login_page';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
-  setLoginFormDisplay,
-  setLoginFormEmail,
-  setLoginFormErrors,
-  setLoginFormPassword,
-  setLoginFormConfirmPassword,
+  setLoginFormValues,
+  setLoginFormValuesToDefault,
 } from '../actions/view/login_form_actions';
-import {
-  setUser
-} from '../actions/user_actions';
+import { setUser } from '../actions/user_actions';
 
 function mapStateToProps(state) {
   return {
@@ -30,11 +25,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      setLoginFormDisplay,
-      setLoginFormEmail,
-      setLoginFormErrors,
-      setLoginFormPassword,
-      setLoginFormConfirmPassword,
+      setLoginFormValues,
+      setLoginFormValuesToDefault,
       setUser,
     }, dispatch),
   };
@@ -43,24 +35,17 @@ function mapDispatchToProps(dispatch) {
 class LoginPageContainer extends Component {
 
   static propTypes = {
+    actions: PropTypes.shape({
+      setLoginFormValues: PropTypes.func.isRequired,
+      setLoginFormValuesToDefault: PropTypes.func.isRequired,
+      setUser: PropTypes.func.isRequired,
+    }),
     user: PropTypes.object.isRequired,
   }
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   };
-
-  constructor(props) {
-    super(props);
-    this._clearInputs = this._clearInputs.bind(this);
-    this._handleConfirmPasswordChange = this._handleConfirmPasswordChange.bind(this);
-    this._handleEmailChange = this._handleEmailChange.bind(this);
-    this._handlePasswordChange = this._handlePasswordChange.bind(this);
-    this._handleSignIn = this._handleSignIn.bind(this);
-    this._handleSignUp = this._handleSignUp.bind(this);
-    this._onActionButtonClicked = this._onActionButtonClicked.bind(this);
-    this._onDisplayChangeClicked = this._onDisplayChangeClicked.bind(this);
-  }
 
   async componentDidMount() {
     const {
@@ -75,35 +60,19 @@ class LoginPageContainer extends Component {
       const response = await getRequest(url);
       if (response.ok) {
         setUser(response.body);
-        setLoginFormDisplay('signOut');
+        setLoginFormValues({
+          display: 'signOut',
+        });
       }
     }
   }
 
-  _clearInputs() {
-    this.props.actions.setLoginFormEmail();
-    this.props.actions.setLoginFormPassword();
-    this.props.actions.setLoginFormConfirmPassword();
-    this.props.actions.setLoginFormErrors();
-  }
-
-  _handleConfirmPasswordChange(value) {
-    this.props.actions.setLoginFormConfirmPassword(value);
-  }
-
-  _handleEmailChange(value) {
-    this.props.actions.setLoginFormEmail(value);
-  }
-
-  _handlePasswordChange(value) {
-    this.props.actions.setLoginFormPassword(value);
-  }
-
-  async _handleSignIn() {
+  _handleSignIn = async () => {
     const {
       actions: {
         setUser,
-        setLoginFormErrors,
+        setLoginFormValues,
+        setLoginFormValuesToDefault,
       },
       loginForm: {
         email,
@@ -120,19 +89,22 @@ class LoginPageContainer extends Component {
     const response = await postRequest(url, data);
     if (response.ok) {
       setUser(response.body);
-      this._clearInputs();
+      setLoginFormValuesToDefault();
       this.context.router.push('/');
     } else {
       setUser();
-      setLoginFormErrors(response.body.errors);
+      setLoginFormValues({
+        errors: response.body.errors
+      });
     };
   }
 
-  async _handleSignUp() {
+  _handleSignUp = async () => {
     const {
       actions: {
         setUser,
-        setLoginFormErrors,
+        setLoginFormValues,
+        setLoginFormValuesToDefault
       },
       loginForm: {
         email,
@@ -147,27 +119,35 @@ class LoginPageContainer extends Component {
         password_confirmation: confirmPassword,
       }
     };
-    let errors = [];
-    if (password === confirmPassword) {
-      const url = '/api/v1/user/registration'
-      const response = await postRequest(url, data);
-      if (response.ok) {
-        setUser(response.body);
-        this._clearInputs();
-        this.context.router.push('/');
-      } else {
-        errors = response.body.errors;
-      }
-    } else {
+    let errors;
+    if (password.split('').length < 8) {
+      errors = {
+        login: ['Password must be 8+ characters'],
+      };
+    }
+    if (password !== confirmPassword) {
       errors = {
         login: ['Passwords do not match'],
       };
     }
+    if (!errors) {
+      const url = '/api/v1/user/registration'
+      const response = await postRequest(url, data);
+      if (response.ok) {
+        setUser(response.body);
+        setLoginFormValuesToDefault();
+        this.context.router.push('/');
+      } else {
+        errors = response.body.errors;
+      }
+    }
     setUser();
-    setLoginFormErrors(errors);
+    setLoginFormValues({
+      errors,
+    });
   }
 
-  _onActionButtonClicked() {
+  _onActionButtonClicked = () => {
     const {
       _handleSignOut,
       loginForm: {
@@ -183,10 +163,6 @@ class LoginPageContainer extends Component {
     };
   }
 
-  _onDisplayChangeClicked(value) {
-    this.props.actions.setLoginFormDisplay(value);
-  }
-
   render() {
     const props = this.props;
     // console.log('*** LoginPageContainer props ***');
@@ -194,9 +170,6 @@ class LoginPageContainer extends Component {
     return (
       <LoginPage
         { ...props }
-        _handleConfirmPasswordChange={this._handleConfirmPasswordChange}
-        _handleEmailChange={this._handleEmailChange}
-        _handlePasswordChange={this._handlePasswordChange}
         _onActionButtonClicked={this._onActionButtonClicked}
         _onDisplayChangeClicked={this._onDisplayChangeClicked}
       />

@@ -1,22 +1,16 @@
 import React, { Children, Component, PropTypes } from 'react';
 
-import {
-  deleteRequest
-} from '../ajax';
+import { deleteRequest } from '../ajax';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {
-  setLoginFormDisplay,
-} from '../actions/view/login_form_actions';
-import {
-  setUser
-} from '../actions/user_actions';
+import { setLoginFormValuesToDefault } from '../actions/view/login_form_actions';
+import { setUser } from '../actions/user_actions';
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      setLoginFormDisplay,
+      setLoginFormValuesToDefault,
       setUser,
     }, dispatch),
   };
@@ -25,30 +19,28 @@ function mapDispatchToProps(dispatch) {
 class ApplicationContainer extends Component {
 
   static propTypes = {
-    actions: PropTypes.object.isRequired,
+    actions: PropTypes.shape({
+      setLoginFormValuesToDefault: PropTypes.func.isRequired,
+      setUser: PropTypes.func.isRequired,
+    }),
   }
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    this._handleSignOut = this._handleSignOut.bind(this);
-  }
-
-  async _handleSignOut() {
+  _handleSignOut = async () => {
     const {
       actions: {
+        setLoginFormValuesToDefault,
         setUser,
-        setLoginFormDisplay,
       },
     } = this.props;
     const url = '/api/v1/user/session';
     const response = await deleteRequest(url);
     if (response.ok) {
       setUser();
-      setLoginFormDisplay();
+      setLoginFormValuesToDefault();
       this.context.router.push('/login');
     }
   }
